@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Death Mountain &#187; word</title>
+	<atom:link href="http://death-mountain.com/tag/word/feed/" rel="self" type="application/rss+xml" />
+	<link>http://death-mountain.com</link>
+	<description>ONES WHO DOES NOT HAVE THE TRIFORCE CAN&#039;T GO IN.</description>
+	<lastBuildDate>Sun, 28 Apr 2013 20:47:29 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.1</generator>
+		<item>
+		<title>TaskPaper to html conversion script/A less painful resume updating process</title>
+		<link>http://death-mountain.com/2010/05/taskpaper-to-html-conversion-script/</link>
+		<comments>http://death-mountain.com/2010/05/taskpaper-to-html-conversion-script/#comments</comments>
+		<pubDate>Mon, 17 May 2010 05:47:23 +0000</pubDate>
+		<dc:creator>Jim</dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Tecmologies]]></category>
+		<category><![CDATA[formats]]></category>
+		<category><![CDATA[html]]></category>
+		<category><![CDATA[perl]]></category>
+		<category><![CDATA[resume]]></category>
+		<category><![CDATA[taskpaper]]></category>
+		<category><![CDATA[word]]></category>
+
+		<guid isPermaLink="false">http://death-mountain.com/?p=29</guid>
+		<description><![CDATA[I couldn&#8217;t find a TaskPaper-to-html script out there, even though I thought this would have been done a million times by now. (Could be that I&#8217;m just getting worse at Googling. Let me know if I&#8217;m wrong!) So, I wrote a Perl script to do it: tp_to_html.pl Usage: perl tp_to_html.pl biglist.taskpaper bigstyle.css You give it [...]]]></description>
+			<content:encoded><![CDATA[<p>I couldn&#8217;t find a TaskPaper-to-html script out there, even though I thought this would have been done a million times by now. (Could be that I&#8217;m just getting worse at Googling. Let me know if I&#8217;m wrong!)  So, I wrote a Perl script to do it:</p>
+<h3><a href="http://death-mountain.com/stuff/2010/05/tp_to_html.pl_source">tp_to_html.pl</a></h3>
+<p><tt>Usage: perl tp_to_html.pl biglist.taskpaper bigstyle.css</tt></p>
+<p>You give it a .taskpaper file and (optionally) a css file, and it&#8217;ll generate an html file that&#8217;ll contain ul and li elements (you can change the code to use blockquotes and divs, if you want), each set to a class corresponding to the item type &#8211; project, task, or note. You can then style those elements and classes in the css file (<a href="http://jimkang.com/resume/resume.css" onclick="pageTracker._trackPageview('/outgoing/jimkang.com/resume/resume.css?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fword%2F');">example</a>).<br />
+&nbsp;<br />
+&nbsp;</p>
+<p><b>Backstory!</b></p>
+<p><a href="http://www.hogbaysoftware.com/products/taskpaper" onclick="pageTracker._trackPageview('/outgoing/www.hogbaysoftware.com/products/taskpaper?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fword%2F');">TaskPaper</a> is a super simple, yet surprisingly effective application for organizing things into hierarchical lists. It&#8217;s intended to be used for to-do lists, but I hadn&#8217;t used it for that until yesterday. </p>
+<p>For the past couple months, I&#8217;ve been mostly using to just jot down, then arrange ideas I had about various projects, which is what I&#8217;ve been doing with plain text files for years. The difference between text files and TaskPaper files is that TaskPaper provides formatting for items based on simple cues, like a line starting with a dash or ending with a colon or have a @done &#8220;tag&#8221; on it. It uses those formatting cues and changes colors and font sizes. It turns out that just doing that makes lists much easier to read and much more attractive. You actually want to look at these lists. That, along with making it very easy, almost unconscious, for the user to format items makes for a rather compelling product, believe it or not.</p>
+<p>Anyway, I started using it for my resume. I haven&#8217;t touched my resume in a while, but I do remember the maintainability messes I used to have. I&#8217;d make the base copy in Word or OpenOffice, fighting it to format it the way I wanted. Then, I&#8217;d save it as a PDF to mail to people (because that way I could be sure it displayed the way I intended). More often than not, a recruiter would ask for it to be in doc format, so I&#8217;d send the original file. And then sometimes, a web form would ask me to paste in my resume in plain text. So, I&#8217;d copy it out of the doc file, paste it into a text editor, see that it looked terrible, then mess with it until it looked right. I&#8217;d also make an html version, which I&#8217;d have to hand code because the &#8220;save as html&#8221; features on Word and OpenOffice sucked.</p>
+<p>Inevitably, I&#8217;d have to update the resume, which meant updating three different versions.</p>
+<p>This time, I initially decided to just use TaskPaper to organize my editing, without having to fight Open Office. Soon, though, the idea of using just TaskPaper took hold of me. A .taskpaper file, after all, is just a text file with &#8220;- &#8221; and &#8220;:&#8221; and various @tags in it. So, there&#8217;s the text version. I could use a script to convert it to html, then a css file to style it. Then, once I had it open in the browser, I could use the OS X print dialog to save it as a PDF. )</p>
+<p>So far, I&#8217;m pretty satisfied with the system. I really like that the formatting and content are separated. I&#8217;m not dreading the next edit or update. Of course, it does have a big flaw: I assumed that there&#8217;d be something out there that&#8217;d convert either html+css or a PDF to a Word doc. I was wrong, so I&#8217;ve got more research to do. If you happen to know how to handle this, please let me know!</p>
+<p><b>Update:</b> <a href="http://www.pdftoword.com/" onclick="pageTracker._trackPageview('/outgoing/www.pdftoword.com/?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fword%2F');">pdftoword.com</a> works pretty decently.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://death-mountain.com/2010/05/taskpaper-to-html-conversion-script/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

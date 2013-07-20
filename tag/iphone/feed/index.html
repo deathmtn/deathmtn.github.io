@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Death Mountain &#187; iphone</title>
+	<atom:link href="http://death-mountain.com/tag/iphone/feed/" rel="self" type="application/rss+xml" />
+	<link>http://death-mountain.com</link>
+	<description>ONES WHO DOES NOT HAVE THE TRIFORCE CAN&#039;T GO IN.</description>
+	<lastBuildDate>Sun, 28 Apr 2013 20:47:29 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.1</generator>
+		<item>
+		<title>ALAssetsLibrary and threads</title>
+		<link>http://death-mountain.com/2011/05/alassetslibrary-and-threads/</link>
+		<comments>http://death-mountain.com/2011/05/alassetslibrary-and-threads/#comments</comments>
+		<pubDate>Thu, 19 May 2011 22:23:54 +0000</pubDate>
+		<dc:creator>Jim</dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Tecmologies]]></category>
+		<category><![CDATA[alassetslibrary]]></category>
+		<category><![CDATA[debugging]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[iphone]]></category>
+		<category><![CDATA[queues]]></category>
+		<category><![CDATA[threads]]></category>
+
+		<guid isPermaLink="false">http://death-mountain.com/?p=72</guid>
+		<description><![CDATA[I&#8217;m working on an iOS app right now with a feature that uses images from the Photo Library. This was all solid for me, and I had worked with it for a nearly a month before putting it before my alpha testers. With a set up like that, you know where this is going: It [...]]]></description>
+			<content:encoded><![CDATA[<p>I&#8217;m working on an iOS app right now with a feature that uses images from the Photo Library. This was all solid for me, and I had worked with it for a nearly a month before putting it before my alpha testers.</p>
+<p>With a set up like that, you know where this is going: It totally did not work for them. At all. After the users would pick a photo from the library, the spinner letting the user know an image was being loaded would sit there forever, and eventually, this would show up in the console logs:</p>
+<p><code>May 19 14:51:17 THE-MOON SpringBoard[27] <Notice>: MultitouchHID(1ed4d440) uilock state: 0 -> 1</p>
+<p>May 19 14:52:00 THE-MOON SpringBoard[27] <Warning>: jotunheim[725] has active assertions beyond permitted time:<br />
+	{(<br />
+	    <SBProcessAssertion: 0x1ede9670> identifier: CoreLocationRegistration process: jotunheim[725] permittedBackgroundDuration: 600.000000 reason: finishTask owner pid:725 preventSuspend  preventIdleSleep ,<br />
+	    <SBProcessAssertion: 0x1f92a540> identifier: CoreLocationRegistration process: jotunheim[725] permittedBackgroundDuration: 600.000000 reason: finishTask owner pid:725 preventSuspend  preventIdleSleep<br />
+	)}</p>
+<p>May 19 14:52:00 THE-MOON SpringBoard[27] <Warning>: Forcing crash report of jotunheim[725]...</code></p>
+<p>For the life of me, I could not reproduce this bug on my phone or my girlfriend&#8217;s phone. Which, of course, is bewildering. Googling pointed to a lot of problems related to threading, and indeed I was using a dispatch queue of my own making to do the image work.</p>
+<p>I know there&#8217;s things that absolutely must be started on the main thread: Network calls (which end up on the web thread) and UI stuff. But I wasn&#8217;t doing anything with the network or the UI, as far as I knew. And why would this only happen on my users&#8217; devices and not on devices in my household?<br />
+&nbsp;</p>
+<p>I&#8217;ll spare you a recounting the red herrings that I surveyed.<br />
+&nbsp;</p>
+<p><b>It&#8217;s because</b> the first time you try to get stuff out of the Photo Library with ALAssetsLibrary, it asks the user if your app can have access to location data. (Photo metadata can contain with location data.) But it can&#8217;t show a UIAlertView from a thread other than the main thread, it can&#8217;t, so things will just stall out.</p>
+<p>My phone and my lady friend&#8217;s phone have had on them previous builds of the app that used ALAssetsLibrary <i>from the main thread</i>. So, back then, that dialog was able to show, and location data access permission was saved. Deleting the app doesn&#8217;t revoke that permission. The current build, which used ALAssetsLibrary from a non-main thread, ran into no problems because it had the permission and didn&#8217;t need to show any dialogs.<br />
+&nbsp;</p>
+<p>The lessons I can see are:</p>
+<p>1. Doing work in helper queues is great, but <b>think twice about whether or not the things you do there are going to lead to UI or network stuff</b>.</p>
+<p>If I had read carefully, I would have noted that the <a href="http://developer.apple.com/library/ios/#documentation/AssetsLibrary/Reference/ALAssetsLibrary_Class/Reference/Reference.html" onclick="pageTracker._trackPageview('/outgoing/developer.apple.com/library/ios/_documentation/AssetsLibrary/Reference/ALAssetsLibrary_Class/Reference/Reference.html?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fiphone%2F');">documentation</a> says:<br />
+<blockquote>When the asset is requested, <b>the user may be asked</b> to confirm the application&#8217;s access to the library. If the user denies access to the application, or if no application is allowed to access the data, the failure block is called.
+</p></blockquote>
+<p>2. Things that affect your app get saved outside of your app and <b>don&#8217;t get cleared when you delete your app</b>.</p>
+<p>I hope this saves someone somewhere some time.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://death-mountain.com/2011/05/alassetslibrary-and-threads/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>The Golden Settings App UILabel-UITextField layout</title>
+		<link>http://death-mountain.com/2010/12/the-golden-settings-app-uilabel-uitextfield-layout/</link>
+		<comments>http://death-mountain.com/2010/12/the-golden-settings-app-uilabel-uitextfield-layout/#comments</comments>
+		<pubDate>Fri, 17 Dec 2010 06:27:01 +0000</pubDate>
+		<dc:creator>Jim</dc:creator>
+				<category><![CDATA[Design]]></category>
+		<category><![CDATA[golden mean]]></category>
+		<category><![CDATA[golden ratio]]></category>
+		<category><![CDATA[iphone]]></category>
+
+		<guid isPermaLink="false">http://death-mountain.com/?p=53</guid>
+		<description><![CDATA[Something I just noticed: It&#8217;s not actually that dant-dant-dah &#8211; designers are said to love Phi. I just didn&#8217;t know how modern that affinity was. It could be a coincidence since the layout does not lock to Phi exactly (of course, no whole number-based layout can). I lean toward this being intentional.]]></description>
+			<content:encoded><![CDATA[<p>Something I just noticed:</p>
+<p><a href="http://www.flickr.com/photos/ignignokt/5267593205/" title="settings_app_phi by ignignokt, on Flickr" onclick="pageTracker._trackPageview('/outgoing/www.flickr.com/photos/ignignokt/5267593205/?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fiphone%2F');"><img src="http://farm6.static.flickr.com/5008/5267593205_c126242a9d.jpg" width="320" height="480" alt="settings_app_phi" /></a></p>
+<p>It&#8217;s not actually that dant-dant-dah &#8211; designers are said to love <a href="http://en.wikipedia.org/wiki/Golden_ratio#Industrial_design" onclick="pageTracker._trackPageview('/outgoing/en.wikipedia.org/wiki/Golden_ratio_Industrial_design?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fiphone%2F');">Phi</a>. I just didn&#8217;t know how modern that affinity was. It could be a coincidence since the layout does not lock to Phi exactly (of course, no whole number-based layout can). I lean toward this being intentional.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://death-mountain.com/2010/12/the-golden-settings-app-uilabel-uitextfield-layout/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>How RGB is related to HSV, and how to implement hue shifting on the iPhone</title>
+		<link>http://death-mountain.com/2010/04/rgb-hsv-and-hue-shifting/</link>
+		<comments>http://death-mountain.com/2010/04/rgb-hsv-and-hue-shifting/#comments</comments>
+		<pubDate>Thu, 22 Apr 2010 05:28:40 +0000</pubDate>
+		<dc:creator>Jim</dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Tecmologies]]></category>
+		<category><![CDATA[cocos2d]]></category>
+		<category><![CDATA[color]]></category>
+		<category><![CDATA[iphone]]></category>
+		<category><![CDATA[objective-c]]></category>
+		<category><![CDATA[photoshop]]></category>
+		<category><![CDATA[technique]]></category>
+
+		<guid isPermaLink="false">http://death-mountain.com/?p=12</guid>
+		<description><![CDATA[Last weekend, I wrote some code that shifted hues in existing colors. To do that, I needed to improve my understanding of hue, saturation, and lightness. I had to go on a journey of learning! So, I thought I&#8217;d share my rainbow voyage with you here. &#160; I started by poking around in Photoshop. If [...]]]></description>
+			<content:encoded><![CDATA[<p>Last weekend, I wrote some code that shifted hues in existing colors. To do that, I needed to improve my understanding of hue, saturation, and lightness. I had to go on a journey of learning! So, I thought I&#8217;d share my rainbow voyage with you here.<br />
+&nbsp;</p>
+<p>I started by poking around in Photoshop. If you&#8217;re familiar with Photoshop, you may recognize this dialog:</p>
+<p><a href="http://death-mountain.com/stuff/2010/04/Photoshop_HSV.png"><img src="http://death-mountain.com/stuff/2010/04/Photoshop_HSV.png" alt="" title="Photoshop_HSV" width="463" height="309" class="alignnone size-full wp-image-13" /></a></p>
+<p>If you move around the Hue slider, your image changes color without changing either saturation (which can be described as &#8216;colorfulness&#8217;, sort of) or value (lightness). That is exactly the functionality I wanted to implement. In Photoshop, it&#8217;s also fun stuff that can make your photos look psychedelic.</p>
+<p>Then, there&#8217;s this guy, the Color Picker:</p>
+<p><a href="http://death-mountain.com/stuff/2010/04/Photoshop_colorpicker.png"><img src="http://death-mountain.com/stuff/2010/04/Photoshop_colorpicker.png" alt="" title="Photoshop_colorpicker" width="558" height="362" class="alignnone size-full wp-image-14" /></a></p>
+<p>To pick your color, you click around in the box on the left and move the rainbow slider up and down. The number-containing boxes in the middle show you the <a href="http://en.wikipedia.org/wiki/RGB" onclick="pageTracker._trackPageview('/outgoing/en.wikipedia.org/wiki/RGB?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fiphone%2F');">RGB</a> (red green blue) values of the color currently specified, which is handy. The rainbow slider is a hue controller, and the big box on the left represents lightness on its Y-axis and saturation on its X-axis.<br />
+&nbsp;</p>
+<p>When you sit down to code something like this, though, <i>you can&#8217;t manipulate the hue directly</i> like that, at least not on the iPhone. You can&#8217;t just say &#8220;give me this existing color&#8217;s hue&#8221; and then use that to compose a new color. Whether you&#8217;re using UIColor, CGColor, or cocos2d&#8217;s ccColor3B, the only way to manipulate the hue of an existing color is via RGB. Thus, you need to figure out how RGB affects HSV (hue saturation value/lightness).</p>
+<p>Moving the hue slider in Photoshop&#8217;s color picker and noting the RGB value changes is a good way to do this. Try it, and you&#8217;ll notice that among the RGB values, there&#8217;s always a constant highest number, a constant lowest number, and a variable middle number. </p>
+<p>Let&#8217;s say the color you start off with has an RGB of <b>57</b>-<b>181</b>-107 (a <span style="background-color: #39b56b; color: #ffffff">mildly-bluish green</span>). You can move the hue slider anywhere you want, but two of the RGB values will <i>always</i> be <b>57</b> and <b>181</b>. If you slide it toward the orange spectrum, you&#8217;ll end up with something like <span style="background-color: #b56b39; color: #ffffff"><b>181</b>-107-<b>57</b></span>. 181 and 57 are still in the mix, yet it&#8217;s an entirely different color. </p>
+<p>When moving the hue slider, the limits remain constant because <b>changing the upper and lower limits will affect the lightness and saturation of a color.</b> If you move the cursor in the saturation/lightness color panel, however, those limits will change.</p>
+<p><b>Lightness</b></p>
+<p>On a display, if you max out red, green, and blue, the result is pure white. It follows that raising the upper limit among the RGB components of a given color will move it <i>closer</i> to white, whereas lowering the lower limit will move it further <i>away</i> from white. &#8220;Moving a color further away from white&#8221; is also known as &#8220;darkening a color.&#8221; </p>
+<p><b>Saturation</b></p>
+<p>Saturation is also affected by the upper and lower RGB limits, but by the two limits&#8217; relative distance from each other, rather than by the limit&#8217;s absolute values. In RGB terms, gray occurs when each of the components&#8217; values are close to one another. <span style="background-color: #abb0a1">177-171-161</span> is a kind of gray, for example. When all three components of a color have matching values, as in <span style="background-color: #ababab">177-177-177</span>, that color is said to be totally desaturated.</p>
+<p>Conversely, the further apart the RGB components are, the more saturated the colors become. e.g. <span style="background-color: #ff7011">255-112-17</span> is a very intense orange. 255 and 17 are about as far apart as you can get.</p>
+<p><b>Hue</b></p>
+<p>If we want to change the hue while freezing saturation and lightness, we can&#8217;t change the upper and lower limits, as explained above. That leaves us just the following:</p>
+<p>1. We can change the variable middle value. e.g. 112 in a color like <span style="background-color: #7043e9; color: #ffffff">112-67-233</span>. If we change 112 to 150, we get <span style="background-color: #9643e9; color: #ffffff">150-67-233</span>.</p>
+<p>2. We can&#8217;t change the upper and lower limits, but we can swap their positions. e.g. In <span style="background-color: #7043e9; color: #ffffff">112-67-233</span>, we can move 67 and 233 and get<br />
+ <span style="background-color: #43e970">67-233-112</span>.</p>
+<p>Now we know how to change the hue without messing with saturation or lightness, but we&#8217;re changing it haphazardly. To find out how to move the hue along the spectrum the way the Photoshop slider does, look at the RGB value changes that happen when the slider is slowly moved in the red-to-blue direction. You&#8217;ll see that:</p>
+<p>1. One value (either R, G, or B) changes at a time.<br />
+2. That value is either moves up until it hits the upper limit, or it moves down until it hits the lower limit.<br />
+3. Once a value hits a limit, that value stops changing momentarily, and a different value starts moving.</p>
+<p>Here&#8217;s a graph of the changes in the RGB values as the color is moved along the spectrum:</p>
+<p><a href="http://death-mountain.com/stuff/2010/04/crappy_rgb_graph.png"><img src="http://death-mountain.com/stuff/2010/04/crappy_rgb_graph.png" alt="" title="crappy_rgb_graph" width="487" height="335" class="alignnone size-full wp-image-15" /></a></p>
+<p>(I apologize for the graph&#8217;s crapulence. I bet you there&#8217;s a good version of this somewhere on the web, but it wasn&#8217;t on the first page of search results, so I just scriggled this out.)</p>
+<p>The lines represent the amounts of R, G, and B components that are present in each point along the spectrum. The vertical bars at the top are the colors that (approximately) result from those RGB combinations.</p>
+<p>The graph shows the following behavior: <b>For each component (R, G, and B):</p>
+<p>- If the component is not at the the lower limit and the next component (e.g. the next component after the R component is G) is at the upper limit, that component will descend.</p>
+<p>- If the component is not at the upper limit and the next component is at the lower limit, that component will ascend.</p>
+<p>- Otherwise, that component doesn&#8217;t change.</b></p>
+<p>I&#8217;m sure there&#8217;s some clean mathematical formula that describes this, but I haven&#8217;t done any real math in like twelve years, and now my math organ is shriveled and useless. So, you&#8217;ll have to live with the algorithm.</p>
+<p><b>Implementation</b></p>
+<p>Once you know the above, implementation is fairly straightforward. If you want an example, though, here&#8217;s my cocos2d-oriented implementation in Objective-C on <a href="http://gist.github.com/585828" onclick="pageTracker._trackPageview('/outgoing/gist.github.com/585828?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fiphone%2F');">github</a>.</p>
+<p>OGColorTools contains the code that does the color shifting. The meat of the code is in the method color:shiftHue:inDirection:. OGHueShiftExampleLayer is a simple example layer that creates a sprite and shifts its color every time the layer is tapped. You will need to provide your own bitmap and load it into the sprite for this to work.</p>
+<p>Enjoy your hue shifting!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://death-mountain.com/2010/04/rgb-hsv-and-hue-shifting/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

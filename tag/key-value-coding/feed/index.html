@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Death Mountain &#187; key-value coding</title>
+	<atom:link href="http://death-mountain.com/tag/key-value-coding/feed/" rel="self" type="application/rss+xml" />
+	<link>http://death-mountain.com</link>
+	<description>ONES WHO DOES NOT HAVE THE TRIFORCE CAN&#039;T GO IN.</description>
+	<lastBuildDate>Sun, 28 Apr 2013 20:47:29 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.1</generator>
+		<item>
+		<title>Key-Value Coding keypaths and arrays</title>
+		<link>http://death-mountain.com/2010/07/key-value-coding-keypaths-and-array/</link>
+		<comments>http://death-mountain.com/2010/07/key-value-coding-keypaths-and-array/#comments</comments>
+		<pubDate>Fri, 23 Jul 2010 03:45:52 +0000</pubDate>
+		<dc:creator>Jim</dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[cocoa]]></category>
+		<category><![CDATA[key-value coding]]></category>
+
+		<guid isPermaLink="false">http://death-mountain.com/?p=40</guid>
+		<description><![CDATA[If you haven&#8217;t read about Key-Value Coding in Cocoa, and you like generic programming, you should do so! By letting you use strings to find and invoke the properties of an object, it opens up a lot of possibilities. I&#8217;ll let the documentation speak to that, though. Key paths are one element of KVC that&#8217;s [...]]]></description>
+			<content:encoded><![CDATA[<p>If you haven&#8217;t read about <a href="http://developer.apple.com/mac/library/documentation/Cocoa/Conceptual/KeyValueCoding/KeyValueCoding.html" onclick="pageTracker._trackPageview('/outgoing/developer.apple.com/mac/library/documentation/Cocoa/Conceptual/KeyValueCoding/KeyValueCoding.html?referer=http%3A%2F%2Fdeath-mountain.com%2Ftag%2Fkey-value-coding%2F');">Key-Value Coding</a> in Cocoa, and you like generic programming, you should do so! By letting you use strings to find and invoke the properties of an object, it opens up a lot of possibilities. I&#8217;ll let the documentation speak to that, though.</p>
+<p>Key paths are one element of KVC that&#8217;s handy, but doesn&#8217;t work in one case that seemed to come up a lot in my experience. Keypaths let you traverse an object hierarchy by means of a string that chains together the names of properties, separated by dots. </p>
+<p>[person valueForKeyPath:@"contactinfo.address.street.orientation"];</p>
+<p>The above line would call the person object&#8217;s contactinfo property, then call the address property on the result of contactinfo call, then call the street property on the result of the address call, then finally call the orientation property on the result of street call.</p>
+<p>Pretty handy, but it does break down when you throw an array into the mix. Say contactinfo had an addresses property that returned an array of address objects instead of just one. There&#8217;s no way to express which element of that array you want via a key path, so you have traverse the hierarchy the old-fashioned way. Boo-hoo, eh?</p>
+<p>Well, sure. But any time you do have to do something a lot of times, a minor inconvenience gets annoying. So, I got around this by making myself a basic implementation keypaths with array accessors. Here it is:<br />
+<span id="more-40"></span><br />
+<script src="http://gist.github.com/486951.js?file=OGKeyPath.h"></script><br />
+&nbsp;<br />
+<script src="http://gist.github.com/486951.js?file=OGKeyPath.m"></script></p>
+<p>It&#8217;s not super-robust, but it&#8217;s actually been used. So, take that as you will and do with it as you like!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://death-mountain.com/2010/07/key-value-coding-keypaths-and-array/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

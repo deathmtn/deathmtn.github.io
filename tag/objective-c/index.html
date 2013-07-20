@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>
+														objective-c | Death Mountain</title>
+
+<link rel="stylesheet" href="http://death-mountain.com/wp-content/themes/elegant-mountain/style.css" type="text/css" media="screen" />
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="http://death-mountain.com/wp-content/themes/elegant-mountain/ie.css" />
+<style type="text/css">
+#footer #subscribe a {
+	background:none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://death-mountain.com/wp-content/themes/elegant-mountain/images/rss.png');
+}
+</style>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="Death Mountain RSS Feed" href="http://death-mountain.com/feed/" />
+<link rel="pingback" href="http://death-mountain.com/xmlrpc.php" />
+
+
+
+<link rel="alternate" type="application/rss+xml" title="Death Mountain &raquo; objective-c Tag Feed" href="http://death-mountain.com/tag/objective-c/feed/" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://death-mountain.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://death-mountain.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 3.3.1" />
+
+<link rel="stylesheet" href="http://death-mountain.com/wp-content/plugins/wp-syntax/wp-syntax.css" type="text/css" media="screen" />
+
+</head>
+
+
+<body >
+
+<div id="page">
+
+<div id="menu">
+	<ul>
+		<li class="page_item "><a href="http://death-mountain.com">Home</a></li>
+		<li class="page_item page-item-2"><a href="http://death-mountain.com/about/">About</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+
+<div id="header-wrap">
+<div id="header">
+	<div><!-- This extra div causes the link to be aligned with the left edge of the content. -->
+		<center>
+		<h1><a href="http://death-mountain.com">DEATH MOUNTAIN <!----></a></h1>
+		</center>
+<!--		<span id="blog-description">ONES WHO DOES NOT HAVE THE TRIFORCE CAN&#039;T GO IN.</span>
+-->
+	</div>
+</div>
+</div>
+
+<!-- end header --><div id="content-container">
+
+<div id="content">
+
+	<div id="body">
+
+	
+		
+			<div class="post" id="post-12">
+				
+				<div class="date">
+					<span class="month">Apr</span>
+					<span class="day">22</span>
+					<span class="year">2010</span>
+				</div>
+				
+				<h2><a href="http://death-mountain.com/2010/04/rgb-hsv-and-hue-shifting/" rel="bookmark" title="Permanent Link to How RGB is related to HSV, and how to implement hue shifting on the iPhone">How RGB is related to HSV, and how to implement hue shifting on the iPhone</a></h2>
+
+								
+				<!-- <div class="info">by Jim</div> -->
+
+				<div class="entry">
+					<p>Last weekend, I wrote some code that shifted hues in existing colors. To do that, I needed to improve my understanding of hue, saturation, and lightness. I had to go on a journey of learning! So, I thought I&#8217;d share my rainbow voyage with you here.<br />
+&nbsp;</p>
+<p>I started by poking around in Photoshop. If you&#8217;re familiar with Photoshop, you may recognize this dialog:</p>
+<p><span class="frame-outer  alignnone size-full wp-image-13"><span><span><span><span><a href="http://death-mountain.com/stuff/2010/04/Photoshop_HSV.png"><img src="http://death-mountain.com/stuff/2010/04/Photoshop_HSV.png" alt="" title="Photoshop_HSV" width="415" height="277" class="alignnone size-full wp-image-13" /></a></span></span></span></span></span></p>
+<p>If you move around the Hue slider, your image changes color without changing either saturation (which can be described as &#8216;colorfulness&#8217;, sort of) or value (lightness). That is exactly the functionality I wanted to implement. In Photoshop, it&#8217;s also fun stuff that can make your photos look psychedelic.</p>
+<p>Then, there&#8217;s this guy, the Color Picker:</p>
+<p><span class="frame-outer  alignnone size-full wp-image-14"><span><span><span><span><a href="http://death-mountain.com/stuff/2010/04/Photoshop_colorpicker.png"><img src="http://death-mountain.com/stuff/2010/04/Photoshop_colorpicker.png" alt="" title="Photoshop_colorpicker" width="415" height="269" class="alignnone size-full wp-image-14" /></a></span></span></span></span></span></p>
+<p>To pick your color, you click around in the box on the left and move the rainbow slider up and down. The number-containing boxes in the middle show you the <a href="http://en.wikipedia.org/wiki/RGB" onclick="pageTracker._trackPageview('/outgoing/en.wikipedia.org/wiki/RGB?referer=http%3A%2F%2Fdeath-mountain.com%2Fon%2Ftecmologies%2Fprogramming%2F');">RGB</a> (red green blue) values of the color currently specified, which is handy. The rainbow slider is a hue controller, and the big box on the left represents lightness on its Y-axis and saturation on its X-axis.<br />
+&nbsp;</p>
+<p>When you sit down to code something like this, though, <i>you can&#8217;t manipulate the hue directly</i> like that, at least not on the iPhone. You can&#8217;t just say &#8220;give me this existing color&#8217;s hue&#8221; and then use that to compose a new color. Whether you&#8217;re using UIColor, CGColor, or cocos2d&#8217;s ccColor3B, the only way to manipulate the hue of an existing color is via RGB. Thus, you need to figure out how RGB affects HSV (hue saturation value/lightness).</p>
+<p>Moving the hue slider in Photoshop&#8217;s color picker and noting the RGB value changes is a good way to do this. Try it, and you&#8217;ll notice that among the RGB values, there&#8217;s always a constant highest number, a constant lowest number, and a variable middle number. </p>
+<p>Let&#8217;s say the color you start off with has an RGB of <b>57</b>-<b>181</b>-107 (a <span style="background-color: #39b56b; color: #ffffff">mildly-bluish green</span>). You can move the hue slider anywhere you want, but two of the RGB values will <i>always</i> be <b>57</b> and <b>181</b>. If you slide it toward the orange spectrum, you&#8217;ll end up with something like <span style="background-color: #b56b39; color: #ffffff"><b>181</b>-107-<b>57</b></span>. 181 and 57 are still in the mix, yet it&#8217;s an entirely different color. </p>
+<p>When moving the hue slider, the limits remain constant because <b>changing the upper and lower limits will affect the lightness and saturation of a color.</b> If you move the cursor in the saturation/lightness color panel, however, those limits will change.</p>
+<p><b>Lightness</b></p>
+<p>On a display, if you max out red, green, and blue, the result is pure white. It follows that raising the upper limit among the RGB components of a given color will move it <i>closer</i> to white, whereas lowering the lower limit will move it further <i>away</i> from white. &#8220;Moving a color further away from white&#8221; is also known as &#8220;darkening a color.&#8221; </p>
+<p><b>Saturation</b></p>
+<p>Saturation is also affected by the upper and lower RGB limits, but by the two limits&#8217; relative distance from each other, rather than by the limit&#8217;s absolute values. In RGB terms, gray occurs when each of the components&#8217; values are close to one another. <span style="background-color: #abb0a1">177-171-161</span> is a kind of gray, for example. When all three components of a color have matching values, as in <span style="background-color: #ababab">177-177-177</span>, that color is said to be totally desaturated.</p>
+<p>Conversely, the further apart the RGB components are, the more saturated the colors become. e.g. <span style="background-color: #ff7011">255-112-17</span> is a very intense orange. 255 and 17 are about as far apart as you can get.</p>
+<p><b>Hue</b></p>
+<p>If we want to change the hue while freezing saturation and lightness, we can&#8217;t change the upper and lower limits, as explained above. That leaves us just the following:</p>
+<p>1. We can change the variable middle value. e.g. 112 in a color like <span style="background-color: #7043e9; color: #ffffff">112-67-233</span>. If we change 112 to 150, we get <span style="background-color: #9643e9; color: #ffffff">150-67-233</span>.</p>
+<p>2. We can&#8217;t change the upper and lower limits, but we can swap their positions. e.g. In <span style="background-color: #7043e9; color: #ffffff">112-67-233</span>, we can move 67 and 233 and get<br />
+ <span style="background-color: #43e970">67-233-112</span>.</p>
+<p>Now we know how to change the hue without messing with saturation or lightness, but we&#8217;re changing it haphazardly. To find out how to move the hue along the spectrum the way the Photoshop slider does, look at the RGB value changes that happen when the slider is slowly moved in the red-to-blue direction. You&#8217;ll see that:</p>
+<p>1. One value (either R, G, or B) changes at a time.<br />
+2. That value is either moves up until it hits the upper limit, or it moves down until it hits the lower limit.<br />
+3. Once a value hits a limit, that value stops changing momentarily, and a different value starts moving.</p>
+<p>Here&#8217;s a graph of the changes in the RGB values as the color is moved along the spectrum:</p>
+<p><span class="frame-outer  alignnone size-full wp-image-15"><span><span><span><span><a href="http://death-mountain.com/stuff/2010/04/crappy_rgb_graph.png"><img src="http://death-mountain.com/stuff/2010/04/crappy_rgb_graph.png" alt="" title="crappy_rgb_graph" width="415" height="285" class="alignnone size-full wp-image-15" /></a></span></span></span></span></span></p>
+<p>(I apologize for the graph&#8217;s crapulence. I bet you there&#8217;s a good version of this somewhere on the web, but it wasn&#8217;t on the first page of search results, so I just scriggled this out.)</p>
+<p>The lines represent the amounts of R, G, and B components that are present in each point along the spectrum. The vertical bars at the top are the colors that (approximately) result from those RGB combinations.</p>
+<p>The graph shows the following behavior: <b>For each component (R, G, and B):</p>
+<p>- If the component is not at the the lower limit and the next component (e.g. the next component after the R component is G) is at the upper limit, that component will descend.</p>
+<p>- If the component is not at the upper limit and the next component is at the lower limit, that component will ascend.</p>
+<p>- Otherwise, that component doesn&#8217;t change.</b></p>
+<p>I&#8217;m sure there&#8217;s some clean mathematical formula that describes this, but I haven&#8217;t done any real math in like twelve years, and now my math organ is shriveled and useless. So, you&#8217;ll have to live with the algorithm.</p>
+<p><b>Implementation</b></p>
+<p>Once you know the above, implementation is fairly straightforward. If you want an example, though, here&#8217;s my cocos2d-oriented implementation in Objective-C on <a href="http://gist.github.com/585828" onclick="pageTracker._trackPageview('/outgoing/gist.github.com/585828?referer=http%3A%2F%2Fdeath-mountain.com%2Fon%2Ftecmologies%2Fprogramming%2F');">github</a>.</p>
+<p>OGColorTools contains the code that does the color shifting. The meat of the code is in the method color:shiftHue:inDirection:. OGHueShiftExampleLayer is a simple example layer that creates a sprite and shifts its color every time the layer is tapped. You will need to provide your own bitmap and load it into the sprite for this to work.</p>
+<p>Enjoy your hue shifting!</p>
+				</div>
+
+				<div class="clear"></div>
+
+				<p class="metadata">
+					<a href="http://death-mountain.com/2010/04/rgb-hsv-and-hue-shifting/#respond" title="Comment on How RGB is related to HSV, and how to implement hue shifting on the iPhone">no comments</a>					&nbsp;&nbsp;|&nbsp;&nbsp;tags: <a href="http://death-mountain.com/tag/cocos2d/" rel="tag">cocos2d</a>, <a href="http://death-mountain.com/tag/color/" rel="tag">color</a>, <a href="http://death-mountain.com/tag/iphone/" rel="tag">iphone</a>, <a href="http://death-mountain.com/tag/objective-c/" rel="tag">objective-c</a>, <a href="http://death-mountain.com/tag/photoshop/" rel="tag">photoshop</a>, <a href="http://death-mountain.com/tag/technique/" rel="tag">technique</a>										 | posted in <a href="http://death-mountain.com/on/tecmologies/programming/" title="View all posts in Programming" rel="category tag">Programming</a>, <a href="http://death-mountain.com/on/tecmologies/" title="View all posts in Tecmologies" rel="category tag">Tecmologies</a>														</p>
+				
+			</div>
+			
+			<div class="hr"><hr /></div>
+
+		
+		<div class="navigation">
+			<div class="next"></div>
+			<div class="previous"></div>
+		</div>
+
+	
+	</div>
+
+	<div id="sidebar" class="sidebar">
+	<ul>
+				<li>
+			<form method="get" id="searchform" action="http://death-mountain.com/">
+	<div>
+		<input type="text" value="search" onfocus="if (this.value == 'search') {this.value = '';}" onblur="if (this.value == '') {this.value = 'search';}"  name="s" id="s" />
+		<input type="submit" id="searchsubmit" value="Search" />
+	</div>
+</form>
+		</li>
+
+		<!-- Author information is disabled per default. Uncomment and fill in your details if you want to use it.
+		<li><h2>Author</h2>
+		<p>A little something about you, the author. Nothing lengthy, just an overview.</p>
+		</li>
+		-->
+
+		
+		<li class="pagenav"><h2>Pages</h2><ul><li class="page_item page-item-2"><a href="http://death-mountain.com/about/">About</a></li>
+</ul></li>
+		<li><h2>Archives</h2>
+			<ul>
+				<li><a href='http://death-mountain.com/2013/04/' title='April 2013'>April 2013</a></li>
+	<li><a href='http://death-mountain.com/2013/01/' title='January 2013'>January 2013</a></li>
+	<li><a href='http://death-mountain.com/2012/08/' title='August 2012'>August 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/06/' title='June 2012'>June 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/05/' title='May 2012'>May 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/03/' title='March 2012'>March 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/02/' title='February 2012'>February 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/01/' title='January 2012'>January 2012</a></li>
+	<li><a href='http://death-mountain.com/2011/11/' title='November 2011'>November 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/10/' title='October 2011'>October 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/09/' title='September 2011'>September 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/05/' title='May 2011'>May 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/03/' title='March 2011'>March 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/01/' title='January 2011'>January 2011</a></li>
+	<li><a href='http://death-mountain.com/2010/12/' title='December 2010'>December 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/08/' title='August 2010'>August 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/07/' title='July 2010'>July 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/06/' title='June 2010'>June 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/05/' title='May 2010'>May 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/04/' title='April 2010'>April 2010</a></li>
+			</ul>
+		</li>
+
+		<li class="categories"><h2>Categories</h2><ul>	<li class="cat-item cat-item-3"><a href="http://death-mountain.com/on/announcement/" title="View all posts filed under Announcement">Announcement</a> (2)
+</li>
+	<li class="cat-item cat-item-45"><a href="http://death-mountain.com/on/art/" title="View all posts filed under Art">Art</a> (6)
+<ul class='children'>
+	<li class="cat-item cat-item-101"><a href="http://death-mountain.com/on/art/books/" title="View all posts filed under Books">Books</a> (1)
+</li>
+	<li class="cat-item cat-item-103"><a href="http://death-mountain.com/on/art/movies/" title="View all posts filed under Movies">Movies</a> (1)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://death-mountain.com/on/design/" title="View all posts filed under Design">Design</a> (2)
+</li>
+	<li class="cat-item cat-item-106"><a href="http://death-mountain.com/on/games-2/" title="View all posts filed under Games">Games</a> (1)
+</li>
+	<li class="cat-item cat-item-64"><a href="http://death-mountain.com/on/happenings/" title="View all posts filed under Happenings">Happenings</a> (8)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://death-mountain.com/on/martial-arts/" title="View all posts filed under Martial arts">Martial arts</a> (3)
+</li>
+	<li class="cat-item cat-item-24"><a href="http://death-mountain.com/on/metal/" title="View all posts filed under Metal">Metal</a> (3)
+</li>
+	<li class="cat-item cat-item-58"><a href="http://death-mountain.com/on/music-2/" title="View all posts filed under Music">Music</a> (3)
+</li>
+	<li class="cat-item cat-item-20"><a href="http://death-mountain.com/on/politics/" title="View all posts filed under Politics">Politics</a> (6)
+</li>
+	<li class="cat-item cat-item-17"><a href="http://death-mountain.com/on/pop-culture/" title="View all posts filed under Pop culture">Pop culture</a> (4)
+</li>
+	<li class="cat-item cat-item-6"><a href="http://death-mountain.com/on/tecmologies/" title="View all posts filed under Tecmologies">Tecmologies</a> (11)
+<ul class='children'>
+	<li class="cat-item cat-item-11"><a href="http://death-mountain.com/on/tecmologies/programming/" title="View all posts filed under Programming">Programming</a> (6)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://death-mountain.com/on/uncategorized/" title="View all posts filed under Uncategorized">Uncategorized</a> (3)
+</li>
+</ul></li>
+		
+			</ul>
+</div>
+
+</div>
+<div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-15658953-1");
+pageTracker._trackPageview();
+} catch(err) {}</script></div> <!-- End page /-->
+
+<div id="footer-wrap-outer">
+<div id="footer-wrap">
+	<div id="footer">
+	
+		<div id="subscribe">
+	<a href="http://death-mountain.com/feed/">Subscribe RSS</a>
+	</div>
+		
+   
+	<div class="clear"></div>
+	<div class="legal">Copyright &copy; 2011 Death Mountain</div>
+	<div class="credit"><a href="http://wordpress.org" target="_blank" onclick="pageTracker._trackPageview('/outgoing/wordpress.org?referer=http%3A%2F%2Fdeath-mountain.com%2Fon%2Ftecmologies%2Fprogramming%2F');">WordPress</a> Theme based on the "Elegant Grunge" theme by <a href="http://michael.tyson.id.au/wordpress" target="_blank" onclick="pageTracker._trackPageview('/outgoing/michael.tyson.id.au/wordpress?referer=http%3A%2F%2Fdeath-mountain.com%2Fon%2Ftecmologies%2Fprogramming%2F');">Michael Tyson</a>.</div>
+		</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>
+						  A static WordPress | Death Mountain								</title>
+
+<link rel="stylesheet" href="http://death-mountain.com/wp-content/themes/elegant-mountain/style.css" type="text/css" media="screen" />
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="http://death-mountain.com/wp-content/themes/elegant-mountain/ie.css" />
+<style type="text/css">
+#footer #subscribe a {
+	background:none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://death-mountain.com/wp-content/themes/elegant-mountain/images/rss.png');
+}
+</style>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="Death Mountain RSS Feed" href="http://death-mountain.com/feed/" />
+<link rel="pingback" href="http://death-mountain.com/xmlrpc.php" />
+
+
+
+<script type='text/javascript' src='http://death-mountain.com/wp-includes/js/comment-reply.js?ver=20090102'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://death-mountain.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://death-mountain.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='A new kind of work' href='http://death-mountain.com/2012/03/a-new-kind-of-work/' />
+<link rel='next' title='Gathered on foot, just for you.' href='http://death-mountain.com/2012/05/gathered-on-foot-just-for-you/' />
+<meta name="generator" content="WordPress 3.3.1" />
+<link rel='canonical' href='http://death-mountain.com/2012/03/a-static-wordpress/' />
+<link rel='shortlink' href='http://death-mountain.com/?p=94' />
+
+<link rel="stylesheet" href="http://death-mountain.com/wp-content/plugins/wp-syntax/wp-syntax.css" type="text/css" media="screen" />
+
+</head>
+
+
+<body >
+
+<div id="page">
+
+<div id="menu">
+	<ul>
+		<li class="page_item "><a href="http://death-mountain.com">Home</a></li>
+		<li class="page_item page-item-2"><a href="http://death-mountain.com/about/">About</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+
+<div id="header-wrap">
+<div id="header">
+	<div><!-- This extra div causes the link to be aligned with the left edge of the content. -->
+		<center>
+		<h1><a href="http://death-mountain.com">DEATH MOUNTAIN <!----></a></h1>
+		</center>
+<!--		<span id="blog-description">ONES WHO DOES NOT HAVE THE TRIFORCE CAN&#039;T GO IN.</span>
+-->
+	</div>
+</div>
+</div>
+
+<!-- end header --><div id="content-container">
+
+	<div id="content">
+	<div id="body">
+	
+	
+		<div class="post" id="post-94">
+		
+		
+			<h2>A static WordPress</h2>
+
+			
+			<div class="entry">
+				<p>If you have been within earshot of any technology blogs in the last few years, you&#8217;ve probably heard about <a href="http://en.wikipedia.org/wiki/Static_web_page" onclick="pageTracker._trackPageview('/outgoing/en.wikipedia.org/wiki/Static_web_page?referer=http%3A%2F%2Fdeath-mountain.com%2F');">static web sites</a> being a <a href="http://prog21.dadgum.com/130.html" onclick="pageTracker._trackPageview('/outgoing/prog21.dadgum.com/130.html?referer=http%3A%2F%2Fdeath-mountain.com%2F');">good way to power a blog</a>.</p>
+<p>It makes sense. Most weblogs are just for reading. They need to change when there&#8217;s an update, unlike a web app like <a href="http://healthmonth.com" onclick="pageTracker._trackPageview('/outgoing/healthmonth.com?referer=http%3A%2F%2Fdeath-mountain.com%2F');">Health Month</a> or <a href="mint.com">Mint</a> that needs to change every time you visit. At most, updates need to happen whenever a new comment is posted, but that&#8217;s <i>if</i> you have comments and if your comments aren&#8217;t handled by an external service like <a href="http://disqus.com" onclick="pageTracker._trackPageview('/outgoing/disqus.com?referer=http%3A%2F%2Fdeath-mountain.com%2F');">Disqus</a>.</p>
+<p>Why should a bunch of PHP stuff and database queries run every time someone wants to read something? All that does is slow things down, and if you had a lot of traffic, it would cost you money.<br />
+&nbsp;</p>
+<p>A bit of last weekend and some of today, I decided to move Death Mountain to a static weblog. I didn&#8217;t <i>truly</i> need to do so; I don&#8217;t post that often, and I don&#8217;t get much traffic. However, I do have concerns about my current web host, and I&#8217;d like to not be tied to hosting that provides WordPress. </p>
+<p>Mostly, I think that I wanted to do a bit of low-stakes messing around. Non-sequitur tinkering, you could call it. It&#8217;s sort of like working on your car, or the Hackintosh hijinks discussed in this <a href="http://edwardsung.com/archives/560" onclick="pageTracker._trackPageview('/outgoing/edwardsung.com/archives/560?referer=http%3A%2F%2Fdeath-mountain.com%2F');">Salad Days episode</a>. (Or making a bunch of stew even though your wife doesn&#8217;t want any. Like I&#8217;m doing right now.)<br />
+&nbsp;</p>
+<p><a href="http://jekyllrb.com/" onclick="pageTracker._trackPageview('/outgoing/jekyllrb.com/?referer=http%3A%2F%2Fdeath-mountain.com%2F');">Jekyll</a> is a nice, lean static blog generator. However:</p>
+<ul>
+<li>I already have this blog looking the way I want, and I don&#8217;t want to painstakingly recreate it.</li>
+<li>There&#8217;s also that should Death Mountain leave a web host that uses WordPress, <a href="http://www.bravestever.com/" onclick="pageTracker._trackPageview('/outgoing/www.bravestever.com/?referer=http%3A%2F%2Fdeath-mountain.com%2F');">Bravest Ever</a> would leave it, too, and I don&#8217;t want to mess with the way Katt does posts (via WordPress).</li>
+<li>Also, I liked posting using the WordPress iOS app the one time I&#8217;ve used it so far.</li>
+<li>I like WordPress&#8217;s thorough cross-linking by dates and categories.</li>
+</ul>
+<p>I wanted to keep the WordPress design and input methods while also having a static site. Maciej, the <a href="http://pinboard.in/" onclick="pageTracker._trackPageview('/outgoing/pinboard.in/?referer=http%3A%2F%2Fdeath-mountain.com%2F');">Pinboard</a> guy, <a href="http://idlewords.com/2009/09/how_to_not_get_your_blog_hacked.htm" onclick="pageTracker._trackPageview('/outgoing/idlewords.com/2009/09/how_to_not_get_your_blog_hacked.htm?referer=http%3A%2F%2Fdeath-mountain.com%2F');">said something about this in passing</a> quite a while ago.</p>
+<blockquote><p>You can use a program like wget or curl to generate a flat HTML version of your website from this local version, and then upload these files to your public server to share them with the world.</p></blockquote>
+<p>&nbsp;<br />
+<b>Here&#8217;s how to do this in practice</b>:<br />
+<span id="more-94"></span><br />
+<strong>First, get a copy of your WordPress blog running locally.</strong> </p>
+<ol>
+<li>Transfer the directory containing your instance of WordPress (usually named yourblog.com and containing index.php and various wp-* subdirectories) to your local machine.<br />
+&nbsp;</li>
+<li>Transfer your database entries to your local MySQL instance. Export the database named after your WordPress blog. Some hosting services provide a web-based way to do this; but you can also use a shell command like <code>mysqldump -u[username] -p [db name] > mysql.dump</code>. To import that file into your local MySQL instance, use <code>mysql -u[username] -p [db name] < mysql.dump</code> or the equivalent. (I use <a href="http://www.mamp.info/en/index.html" onclick="pageTracker._trackPageview('/outgoing/www.mamp.info/en/index.html?referer=http%3A%2F%2Fdeath-mountain.com%2F');">MAMP</a> to run Apache, MySQL, and PHP locally. It's simple.)<br />
+&nbsp;</li>
+<li>The tricky thing about running WordPress locally is that it uses a stored value to determine its base URL rather than using relative paths. e.g. So, if "WordPress Address" and "Site Address" in the WordPress dashboard (or in wp-config.php) is set to http://death-mountain.com, it will point all the links to other parts of the site to something based on http://death-mountain.com rather than on http://localhost.
+<p>Now, you can set those properties to http://localhost. Then, all the links will work on your local instance of your blog, however, when you take a static snapshot of your site, the links will be pointing to localhost, which is no good.</p>
+<p>So, you need to keep these WordPress properties pointing to your real blog URL but get requests for http://yourblog.com on your local machine to go to localhost. So, add an entry to your /private/etc/hosts file like so: <code>127.0.0.1 yourblog.com</code>.</p>
+<p>If you're on Lion, <a href="http://johncblandii.com/2011/07/osx-lion-gotcha-etchosts-file.html" onclick="pageTracker._trackPageview('/outgoing/johncblandii.com/2011/07/osx-lion-gotcha-etchosts-file.html?referer=http%3A%2F%2Fdeath-mountain.com%2F');">make sure you put that above the "fe80::1%lo0" line</a>. And don't forget to flush your DNS cache afterward. On OS X, <code>dscacheutil -flushcache</code> will do it. </p>
+<p>Now, you will be able to run your WordPress blog locally, using your real URL. You can shut down your Internet connection to make sure it's working.</p>
+<p>Oh, also: You will need to run Apache (or whatever web server you use) on port 80. To do that, it needs to run as root, so start it with sudo.
+</li>
+<li>Now, use wget to get a static snapshot of your site. Unlike running WordPress locally, wget is much less tricker. Just go to a clean directory and run:<br />
+<code>wget -m and robots=off http://yourblog.com</code><br />
+Within seconds, you'll have your whole site as static files. It will be from the non-admin's perspective as well, so none of the admin stuff will be there.<br />
+&nbsp;</li>
+<li>If you want, that can be the end of the line. When you want to post, just start your MAMP/LAMP stack, write your post, run wget, then upload the files wget gets to the server.
+<p>I'd prefer not to upload the whole thing, every time, though, so I use <a href="http://git-scm.com/" onclick="pageTracker._trackPageview('/outgoing/git-scm.com/?referer=http%3A%2F%2Fdeath-mountain.com%2F');">git</a> to handle just sending the diffs. It also has the side benefit of letting me revert to specific versions, plus everything else git does. If you are not already familiar with git, though, this is probably not worth it.</p>
+<p>I'm already git-centric, though, I created a git repo in the directory in which I put wgets output: The static snapshot. Then, I followed this awesome howto <a href="http://toroid.org/ams/git-website-howto" onclick="pageTracker._trackPageview('/outgoing/toroid.org/ams/git-website-howto?referer=http%3A%2F%2Fdeath-mountain.com%2F');">to set up a way to update the web site just by pushing with git</a>. (If you're using <a href="http://pages.github.com/" onclick="pageTracker._trackPageview('/outgoing/pages.github.com/?referer=http%3A%2F%2Fdeath-mountain.com%2F');">github</a> for hosting, you can just push straight to github and skip all that.)</p>
+<p>So, my update workflow goes like this:</p>
+<ol>
+<li>Start MAMP, if it's not already running.</li>
+<li>Go to http://myblog.com (which will actually be my local instance of the site) and post.</li>
+<li>Run wget in my static site directory. (Which is a git repo.)</li>
+<li>Commit the changes in git.</li>
+<li>Push the git repo to the web host.</li>
+</ol>
+</li>
+</ol>
+<p>That's it! I'm posting with this method now. It's two extra no-brainer steps. It'll serve up faster, and I'll be able to move web hosting easily now. It's not the most detailed explanation, but hopefully, you get the idea. I'd go into further detail, but my stew is almost done.</p>
+			</div>
+
+			<div class="clear"></div>
+			
+			
+			<div class="metadata">
+				
+					This entry was posted on Saturday, March 31st, 2012 at 10:20 PMand is filed under Tecmologies. You can follow any responses to this entry through the <a href="http://death-mountain.com/2012/03/a-static-wordpress/feed/">RSS 2.0</a> feed.
+											Both comments and pings are currently closed.
+					
+				</div>
+			</div>
+			<div class="hr"><hr /></div>
+
+	
+<!-- You can start editing here. -->
+
+
+
+			<!-- If comments are closed. -->
+		<p class="nocomments">Comments are closed.</p>
+
+	
+
+
+	
+	</div> <!-- End body /-->
+
+	<div id="sidebar" class="sidebar">
+	<ul>
+				<li>
+			<form method="get" id="searchform" action="http://death-mountain.com/">
+	<div>
+		<input type="text" value="search" onfocus="if (this.value == 'search') {this.value = '';}" onblur="if (this.value == '') {this.value = 'search';}"  name="s" id="s" />
+		<input type="submit" id="searchsubmit" value="Search" />
+	</div>
+</form>
+		</li>
+
+		<!-- Author information is disabled per default. Uncomment and fill in your details if you want to use it.
+		<li><h2>Author</h2>
+		<p>A little something about you, the author. Nothing lengthy, just an overview.</p>
+		</li>
+		-->
+
+		
+		<li class="pagenav"><h2>Pages</h2><ul><li class="page_item page-item-2"><a href="http://death-mountain.com/about/">About</a></li>
+</ul></li>
+		<li><h2>Archives</h2>
+			<ul>
+				<li><a href='http://death-mountain.com/2013/04/' title='April 2013'>April 2013</a></li>
+	<li><a href='http://death-mountain.com/2013/01/' title='January 2013'>January 2013</a></li>
+	<li><a href='http://death-mountain.com/2012/08/' title='August 2012'>August 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/06/' title='June 2012'>June 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/05/' title='May 2012'>May 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/03/' title='March 2012'>March 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/02/' title='February 2012'>February 2012</a></li>
+	<li><a href='http://death-mountain.com/2012/01/' title='January 2012'>January 2012</a></li>
+	<li><a href='http://death-mountain.com/2011/11/' title='November 2011'>November 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/10/' title='October 2011'>October 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/09/' title='September 2011'>September 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/05/' title='May 2011'>May 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/03/' title='March 2011'>March 2011</a></li>
+	<li><a href='http://death-mountain.com/2011/01/' title='January 2011'>January 2011</a></li>
+	<li><a href='http://death-mountain.com/2010/12/' title='December 2010'>December 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/08/' title='August 2010'>August 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/07/' title='July 2010'>July 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/06/' title='June 2010'>June 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/05/' title='May 2010'>May 2010</a></li>
+	<li><a href='http://death-mountain.com/2010/04/' title='April 2010'>April 2010</a></li>
+			</ul>
+		</li>
+
+		<li class="categories"><h2>Categories</h2><ul>	<li class="cat-item cat-item-3"><a href="http://death-mountain.com/on/announcement/" title="View all posts filed under Announcement">Announcement</a> (2)
+</li>
+	<li class="cat-item cat-item-45"><a href="http://death-mountain.com/on/art/" title="View all posts filed under Art">Art</a> (6)
+<ul class='children'>
+	<li class="cat-item cat-item-101"><a href="http://death-mountain.com/on/art/books/" title="View all posts filed under Books">Books</a> (1)
+</li>
+	<li class="cat-item cat-item-103"><a href="http://death-mountain.com/on/art/movies/" title="View all posts filed under Movies">Movies</a> (1)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://death-mountain.com/on/design/" title="View all posts filed under Design">Design</a> (2)
+</li>
+	<li class="cat-item cat-item-106"><a href="http://death-mountain.com/on/games-2/" title="View all posts filed under Games">Games</a> (1)
+</li>
+	<li class="cat-item cat-item-64"><a href="http://death-mountain.com/on/happenings/" title="View all posts filed under Happenings">Happenings</a> (8)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://death-mountain.com/on/martial-arts/" title="View all posts filed under Martial arts">Martial arts</a> (3)
+</li>
+	<li class="cat-item cat-item-24"><a href="http://death-mountain.com/on/metal/" title="View all posts filed under Metal">Metal</a> (3)
+</li>
+	<li class="cat-item cat-item-58"><a href="http://death-mountain.com/on/music-2/" title="View all posts filed under Music">Music</a> (3)
+</li>
+	<li class="cat-item cat-item-20"><a href="http://death-mountain.com/on/politics/" title="View all posts filed under Politics">Politics</a> (6)
+</li>
+	<li class="cat-item cat-item-17"><a href="http://death-mountain.com/on/pop-culture/" title="View all posts filed under Pop culture">Pop culture</a> (4)
+</li>
+	<li class="cat-item cat-item-6"><a href="http://death-mountain.com/on/tecmologies/" title="View all posts filed under Tecmologies">Tecmologies</a> (11)
+<ul class='children'>
+	<li class="cat-item cat-item-11"><a href="http://death-mountain.com/on/tecmologies/programming/" title="View all posts filed under Programming">Programming</a> (6)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://death-mountain.com/on/uncategorized/" title="View all posts filed under Uncategorized">Uncategorized</a> (3)
+</li>
+</ul></li>
+		
+			</ul>
+</div>
+
+	</div>
+	
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-15658953-1");
+pageTracker._trackPageview();
+} catch(err) {}</script></div> <!-- End page /-->
+
+<div id="footer-wrap-outer">
+<div id="footer-wrap">
+	<div id="footer">
+	
+		<div id="subscribe">
+	<a href="http://death-mountain.com/feed/">Subscribe RSS</a>
+	</div>
+		
+   
+	<div class="clear"></div>
+	<div class="legal">Copyright &copy; 2011 Death Mountain</div>
+	<div class="credit"><a href="http://wordpress.org" target="_blank" onclick="pageTracker._trackPageview('/outgoing/wordpress.org?referer=http%3A%2F%2Fdeath-mountain.com%2F');">WordPress</a> Theme based on the "Elegant Grunge" theme by <a href="http://michael.tyson.id.au/wordpress" target="_blank" onclick="pageTracker._trackPageview('/outgoing/michael.tyson.id.au/wordpress?referer=http%3A%2F%2Fdeath-mountain.com%2F');">Michael Tyson</a>.</div>
+		</div>
+</div>
+</div>
+
+</body>
+</html>

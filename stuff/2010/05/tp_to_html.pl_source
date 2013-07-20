@@ -1,0 +1,186 @@
+#  Copyright (c) 2010 Jim Kang
+
+#  Permission is hereby granted, free of charge, to any person
+#  obtaining a copy of this software and associated documentation
+#  files (the "Software"), to deal in the Software without
+#  restriction, including without limitation the rights to use,
+#  copy, modify, merge, publish, distribute, sublicense, and/or sell
+#  copies of the Software, and to permit persons to whom the
+#  Software is furnished to do so, subject to the following
+#  conditions:
+
+#  The above copyright notice and this permission notice shall be
+#  included in all copies or substantial portions of the Software.
+
+#  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+#  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+#  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+#  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+
+
+#!/usr/bin/perl
+
+if ((scalar(@ARGV) < 1) || !($ARGV[0] =~ /\.taskpaper/))
+{
+    print "Usage: perl tp_to_html.pl <taskpaper file> [css file]\n";
+    exit(1);
+}
+
+# Set up filenames.
+$g_cssFile = "";
+if (scalar(@ARGV) > 1)
+{
+	$g_cssFile = $ARGV[1];	
+}
+$g_inputFileName = $ARGV[0];
+$g_fileNoExtension = $ARGV[0];
+$g_fileNoExtension =~ s/(.*)\.taskpaper/$1/;
+$outFileName = $g_fileNoExtension . ".html";
+
+# Try to open all the files first
+$openedfiles = 0;
+
+open(IN_FILE, "<" . $g_inputFileName) or die "Can't open $g_inputFileName";
+open(OUT_FILE, ">" . $outFileName) or die "Can't open $outFileName";
+
+# Replace stdout with the output file.
+select OUT_FILE;
+
+$g_indentLevel = 0;
+
+# "Constants." Configure these as you'd like.
+# There might be actual constants in Perl, but that's a question for another time!
+$kIndentTag = "<ul>\n";
+$kOutdentTag = "</ul>\n";
+$kItemTagName = "li";
+$kTaskClass = "tptask";
+$kNoteClass = "tpnote";
+$kProjectClass = "tpproject";
+
+printHeader();
+
+while (<IN_FILE>)
+{
+	my $outputLine = $_;
+	$outputLine = tagLine($outputLine);
+	$outputLine = indent($outputLine);	
+	print $outputLine;	
+}
+
+printFooter();
+
+# At the end of the file, close any open indentation tags.
+for (my $j = 0; $j < $g_indentLevel; ++$j)
+{
+	print $kOutdentTag;
+}
+
+# Close file handles.
+close(IN_FILE);
+close(OUT_FILE);
+
+
+# Subroutines.
+
+
+# Adds the necessary tags to indent the line as needed and returns the indented line.
+# Updates the global $g_indentLevel variable.
+sub indent
+{	
+	$line = $_[0];
+	# Count the tabs.
+	my $tabCount = 0;	
+	while ($line =~ /\t/g)
+	{
+		++$tabCount;
+	}
+		
+	if ($g_indentLevel != $tabCount)
+	{
+		my $tag = $kOutdentTag;		
+		if ($g_indentLevel < $tabCount)
+		{
+			$tag = $kIndentTag;
+		}		
+		
+		for (my $i = 0; $i < abs($g_indentLevel - $tabCount); ++$i)
+		{
+			# Set up the right number of tabs. (Need the tabs to make the html source readable.)			
+			my $tabsForThisLine = "";
+			my $numberOfOutputTabs = $i;
+			if ($g_indentLevel < $tabCount)
+			{
+				$numberOfOutputTabs = $g_indentLevel - $i;
+			}
+			
+			for (my $j = 0; $j < $numberOfOutputTabs; ++$j)
+			{
+				$tabsForThisLine = $tabsForThisLine . "\t";
+			}			
+			
+			# Add the tabs and indent tag.
+			$line = $tabsForThisLine . $tag . $line;
+		}		
+		
+		$g_indentLevel = $tabCount;
+	}
+	
+	return $line;
+}
+
+# Returns the line with the appropriate tags added.
+sub tagLine
+{	
+	$line = $_[0];
+	
+	my $itemClass = $kNoteClass;
+	
+	# If it starts with "- ", it's a task.
+	if ($line =~ /^(\s*)\- /)
+	{
+		$itemClass = $kTaskClass;
+		$line =~ s/^(\s*)\- /$1/; # Get rid of the "- ".
+	}
+	else 
+	{
+		# If it ends with ":", it's a project.
+		if ($line =~ /:\n$/)
+		{
+			$itemClass = $kProjectClass;
+			$line =~ s/:\n$/\n/; # Get rid of the ":".
+		}
+	}
+	
+	my $openTag = "<$kItemTagName class=\"$itemClass\">";
+	my $closeTag ="</$kItemTagName>";
+	
+	# Squeeze the opening and closing tags in after the whitespace at the beginning 
+	# of the line and at the end of the line, respectively.
+	$line =~ s/^(\s*)(.*)\n/$1$openTag$2$closeTag\n/;
+	return $line;
+}
+
+sub printHeader
+{
+	print "<html>
+<head>
+	<title>$g_fileNoExtension</title>\n";
+	
+	if (length($g_cssFile) > 0)
+	{
+		print "\t<link rel=\"stylesheet\" type=\"text/css\" href=\"$g_cssFile\" />\n";
+	}
+	
+	print "</head>
+<body>\n";
+
+}
+
+sub printFooter
+{
+	print "</body>\n</html>\n";
+}
